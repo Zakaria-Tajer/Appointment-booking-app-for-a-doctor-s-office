@@ -1,20 +1,19 @@
 import Head from "next/head";
 import { Vector } from "../components/vector";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Login } from "../components/Login";
-import { v4 as uuidv4 } from "uuid";
-import toast from "react-hot-toast";
 import { useRouter } from "next/router";
-import requestCreator from "../lib/requestCreator";
+import requestCreator  from "../lib/requestCreator";
+import tokenCreator from "../lib/tokenCreator";
 
 export default function Home() {
   const [isHidden, setIsHidden] = useState(true);
-  const [regtFor, setRegFor] = useState("");
+  const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmationPass, setConPass] = useState("");
   const [date, setDate] = useState();
-  const unique_id = uuidv4();
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const router = useRouter();
 
@@ -22,8 +21,8 @@ export default function Home() {
     setIsHidden(!isHidden);
   };
 
-  const reg = (e) => {
-    setRegFor(e.target.value);
+  const getEmail = (e) => {
+    setEmail(e.target.value);
   };
   const getName = (e) => {
     setFullName(e.target.value);
@@ -38,19 +37,23 @@ export default function Home() {
   const getBirthDate = (e) => {
     setDate(e.target.value);
   };
+  const getPhoneNumber = (e) => {
+    setPhoneNumber(e.target.value);
+  };
 
   const getFormData = () => {
     requestCreator(
       // Metohd wanted
-      "POST", 
+      "POST",
       // url to fetch
       "http://localhost:8000/register",
       // data to send
-      `forWho=${regtFor}&fullName=${fullName}&password=${password}&confirmationPass=${confirmationPass}&BirthDate=${date}&unique_id=${unique_id}`,
+      `email=${email}&fullName=${fullName}&password=${password}&confirmationPass=${confirmationPass}&BirthDate=${date}&phoneNumber=${phoneNumber}`,
       // on success push user to userPage
-      "/userPage",
+      "/dashboard/userPage",
       router
     );
+    tokenCreator([email, fullName, password, confirmationPass, date,phoneNumber],'key');
   };
 
   return (
@@ -81,10 +84,16 @@ export default function Home() {
                     htmlFor=""
                     className="block mb-2 text-[#00007f] font-poppins"
                   >
-                    I am Registering for
+                    Email
                   </label>
                   <div className="flex space-x-4">
-                    <div className="flex items-center space-x-2 border-[1px] p-2 w-40 rounded-lg">
+                    <input
+                      type="email"
+                      className="py-3 px-10 outline-none rounded-lg w-full md:w-4/5 bg-[#f6f6f8] focus:ring-2 focus:ring-offset-4 ring-blue-700"
+                      placeholder="Email..."
+                      onChange={getEmail}
+                    />
+                    {/* <div className="flex items-center space-x-2 border-[1px] p-2 w-40 rounded-lg">
                       <input
                         type="radio"
                         placeholder=""
@@ -93,9 +102,9 @@ export default function Home() {
                         onChange={reg}
                       />
                       <h2 className="text-[#00007f] font-poppins">my Self</h2>
-                    </div>
+                    </div> */}
 
-                    <div className="flex items-center space-x-2 border-[1px] p-2 w-40 rounded-lg">
+                    {/* <div className="flex items-center space-x-2 border-[1px] p-2 w-40 rounded-lg">
                       <input
                         type="radio"
                         placeholder=""
@@ -106,7 +115,7 @@ export default function Home() {
                       <h2 className="text-[#00007f] font-poppins">
                         Other people
                       </h2>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
@@ -124,15 +133,30 @@ export default function Home() {
                 </div>
 
                 {/* add mobile phone verification */}
-                <div>
-                  <label className="text-[#00007f] font-poppins block mb-2">
-                    Patient&apos;s BirthDate
-                  </label>
-                  <input
-                    type="date"
-                    className="border-[2px] py-2 focus:ring-2 focus:ring-offset-2 outline-none ring-blue-700 rounded-md px-5"
-                    onChange={getBirthDate}
-                  />
+                <div className="flex space-x-3">
+                  <div>
+                    <label className="text-[#00007f] font-poppins block mb-2">
+                      Patient&apos;s BirthDate
+                    </label>
+                    <input
+                      type="date"
+                      className="border-[2px] py-2 focus:ring-2 focus:ring-offset-2 outline-none ring-blue-700 rounded-md px-5"
+                      onChange={getBirthDate}
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-[#00007f] font-poppins block mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      className="py-3 px-10 outline-none rounded-lg w-full md:w-4/5 bg-[#f6f6f8] focus:ring-2 focus:ring-offset-4 ring-blue-700"
+                      onChange={getPhoneNumber}
+                      placeholder="Phone"
+                    />
+                  </div>
+                  
                 </div>
 
                 <div className="space-y-4">

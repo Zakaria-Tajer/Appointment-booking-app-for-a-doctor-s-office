@@ -11,16 +11,12 @@ export async function middleware(req) {
     // getting url
     const { pathname } = req.nextUrl
 
-    // if url includes "/dashboard" then.
-    // 1) if accessToken and successCookie are not available then redirect them to "/"
-    // 2) if success then continue the response
-
     if(pathname.includes('/dashboard')){
 
         if(!accesToken && !successCookie){
             return NextResponse.redirect(new URL('/', req.url))
         }else if(successCookie){
-            return NextResponse.next()
+            return NextResponse.next();
         }
 
         try {

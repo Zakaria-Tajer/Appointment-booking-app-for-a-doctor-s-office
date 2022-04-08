@@ -23,6 +23,7 @@ export const Login = () => {
     } else {
       tokenCreator(refKey);
     }
+    console.log(refKey);
   };
 
   return (

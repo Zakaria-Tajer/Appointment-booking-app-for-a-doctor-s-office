@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Combobox } from "@headlessui/react";
 import { AppointementService } from "./AppointementService";
 
 const people = [
-  "Durward Reynolds",
-  "Kenton Towne",
-  "Therese Wunsch",
-  "Benedict Kessler",
-  "Katelyn Rohan",
+  "Nephrologists",
+  "Cardiologists",
+  "Neurologists",
+  "Radiologists",
+  "Pediatricians",
 ];
 
 export const AddService = () => {
@@ -24,13 +24,17 @@ export const AddService = () => {
           return person.toLowerCase().includes(query.toLowerCase());
         });
 
+  const closeBar = () => {
+    setIsDisplayed(!isDisplayed);
+  };
+  const getValue =  (e)=> {
+    console.log(selectedPerson);
+  }
   return (
     <>
       {isDisplayed ? (
         <div className="w-5/6 bg-white h-40 rounded py-2 px-4 ">
-          <h1 className="font-poppins ">
-            First you need to add a service
-          </h1>
+          <h1 className="font-poppins ">First you need to add a service</h1>
 
           <div className="w-full h-32 flex flex-col items-center justify-center">
             <button
@@ -52,7 +56,8 @@ export const AddService = () => {
                   />
                   <Combobox.Options
                     className="fixed bg-white w-96 text-center py-2 mt-14 shadow-lg"
-                    onClick={() => setIsDisplayed(!isDisplayed)}
+                    onClick={closeBar}
+                    onChange={getValue}
                   >
                     {filteredPeople.map((person) => (
                       <Combobox.Option

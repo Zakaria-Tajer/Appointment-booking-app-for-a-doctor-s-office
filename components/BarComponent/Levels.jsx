@@ -2,7 +2,7 @@ import React from "react";
 
 export const Levels = () => {
   return (
-    <div className="w-32 bg-white  flex flex-col items-center">
+    <div className="w-32 bg-white  flex flex-col items-center ">
 
       <div className="h-52 mt-10">
         <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">

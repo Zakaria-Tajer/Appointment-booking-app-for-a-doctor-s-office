@@ -45,24 +45,6 @@ export const PatientInformation = () => {
     req.send(`patientRef=${patient}`);
   };
 
-  // useEffect(() => {
-  //   const patient = Cookies.get("patient");
-  //   const req = new XMLHttpRequest();
-  //   req.open("POST", "http://localhost:8000/patient", true);
-  //   req.onload = () => {
-  //     if (req.readyState === XMLHttpRequest.DONE) {
-  //       if (req.status === 200) {
-  //         let data = req.response;
-  //         let Patientname = JSON.parse(data[0]);
-  //         let BirthDate = JSON.parse(data[1]);
-  //         setPatientFullName(Patientname);
-  //         setPatientBirthDate(BirthDate);
-  //       }
-  //     }
-  //   };
-  //   req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  //   req.send(`patientRef=${patient}`);
-  // }, []);
 
   return (
     <>
@@ -87,8 +69,8 @@ export const PatientInformation = () => {
             </button>
           </div>
           {hidden && (
-            <div className="flex items-center w-3/4 bg-gray-700 shadow-xl rounded justify-center mx-auto">
-              <div className="w-full px-4 py-4">
+            <div className="flex items-center w-3/4 bg-gray-400 shadow-xl rounded justify-center mx-auto">
+              <div className="w-full px-4 py-2">
                 <div className="w-full max-w-md mx-auto">
                   <RadioGroup
                     value={selected}

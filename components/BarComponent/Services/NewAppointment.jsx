@@ -6,17 +6,18 @@ import { TimeAndDate } from "./TimeDate/TimeAndDate";
 import { useSelector, useDispatch } from "react-redux";
 import { saveData } from "../../../slices/userInfoSlice";
 import { userContext } from "../Bar";
+import { AppointmentContext } from "../../../context/AppointmentContext";
 
 export const NewAppointment = () => {
   const showed = useSelector((state) => state.show.showing);
   const [show, setShow] = useState(true);
   const { setIsShowing } = useContext(userContext);
   const dispatch = useDispatch();
-
+  const { setIsTicket } = useContext(AppointmentContext)
   const saveInfo = () => {
     dispatch(saveData(show));
     setIsShowing(!show);
-    // setIsTicket(show);
+    setIsTicket(show);
     localStorage.setItem("isSaved", "true");
   };
   return (

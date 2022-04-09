@@ -1,13 +1,17 @@
 import requestCreator from "../lib/requestCreator";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { useRouter } from "next/router";
 import tokenCreator from "../lib/tokenCreator";
 import Cookies from "js-cookie";
+import { LoginContext } from "../pages";
+
 
 export const Login = () => {
+
+  const { isHidden,setIsHidden } = useContext(LoginContext)
+
   const [refKey, setRefKey] = useState("");
   const router = useRouter();
-
   const loginUser = () => {
     requestCreator(
       "POST",
@@ -19,7 +23,7 @@ export const Login = () => {
     const token = Cookies.get("accesToken");
     if (token) {
       // if token exist dont do anything
-      tokenCreator(refKey,'patient')
+      tokenCreator(refKey, "patient");
     } else {
       tokenCreator(refKey);
     }
@@ -27,7 +31,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="h-screen  flex flex-col items-center justify-center">
+    <div className="h-screen flex flex-col items-center justify-center ">
       <div className="mx-auto space-y-5 ">
         <h1 className="font-poppins text-[40px] md:text-center md:text-[29px] lg:text-[40px] font-bold text-center">
           Welcome back
@@ -37,8 +41,8 @@ export const Login = () => {
           <br></br>get access to your medical data
         </p>
         <div className="space-y-3 ">
-          <form action="" onSubmit={(e) => e.preventDefault()}>
-            <label className="text-[#00007f] font-poppins block ml-4 md:ml-0 mb-2">
+          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+            <label className="text-[#00007f] font-poppins block ml-4 md:ml-0 ">
               Reference Key
             </label>
             <input
@@ -54,10 +58,16 @@ export const Login = () => {
             >
               Login
             </button>
+            <h2 className="text-[#00308F] text-center mt-2 font-poppins mx-auto md:-translate-x-10 text-[17px]">
+              Not Registered?
+              <a
+                className="ml-2 text-[#0a2351] text-[18px] cursor-pointer hover:underline hover:underline-offset-2"
+                onClick={()=> setIsHidden(!isHidden)}
+              >
+                Register
+              </a>
+            </h2>
           </form>
-          {/* <h1 className="text-[#00308F] md:ml-10 font-poppins mx-auto md:-translate-x-10 text-[17px]">Forget Your Key ?
-            <a className="ml-2 text-[#0a2351] text-[18px] cursor-pointer hover:underline hover:underline-offset-2" onClick={show}>Login with password</a>
-          </h1> */}
         </div>
       </div>
     </div>

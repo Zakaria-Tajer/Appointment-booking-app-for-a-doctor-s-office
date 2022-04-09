@@ -44,7 +44,7 @@ export default function UserPage({ response }) {
           <div className="py-10 px-2 ">
             <Bar />
           </div>
-          {isSaved == true ? (
+          {isSaved == true || isTicket == true ? (
             <div className="md:flex block overflow-y-auto">
               {window.innerWidth > 425 ? (
                 <>
@@ -70,9 +70,6 @@ export default function UserPage({ response }) {
             <div className={"overflow-y-auto"}>
               <div className="w-full h-1/2">
                 <Doctors res={response} />
-              </div>
-              <div className="w-1/2 h-1/2">
-                <AppointementList />
               </div>
             </div>
           )}

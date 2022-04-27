@@ -18,10 +18,10 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 ## Backend with php MVC OOP
 
-You can start by navigating to `ticket_project/backend`
+You can start by navigating to `medical/backend`
 
 ```bash
-php artisan serve
+php -S localhost:8000
 ```
 
 ## Folder structure

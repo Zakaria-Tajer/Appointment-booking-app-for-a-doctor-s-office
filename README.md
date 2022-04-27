@@ -26,7 +26,7 @@ php -S localhost:8000
 
 ## Folder structure
 
-![Alt text](<public/Screenshot%20(52).png>)
+![Alt text](<public/Screenshot%20(53).png>)
 
 ## API endpoints
 

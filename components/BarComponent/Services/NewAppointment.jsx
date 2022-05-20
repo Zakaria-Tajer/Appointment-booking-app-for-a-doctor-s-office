@@ -13,8 +13,10 @@ export const NewAppointment = () => {
   const [show, setShow] = useState(true);
   const { setIsShowing } = useContext(userContext);
   const dispatch = useDispatch();
-  const { setIsTicket } = useContext(AppointmentContext)
+  const { setIsTicket } = useContext(AppointmentContext);
   const saveInfo = () => {
+    
+
     dispatch(saveData(show));
     setIsShowing(!show);
     setIsTicket(show);

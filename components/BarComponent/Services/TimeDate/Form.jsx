@@ -13,12 +13,14 @@ import {
   Appointments,
   AppointmentForm,
 } from "@devexpress/dx-react-scheduler-material-ui";
+import toast from "react-hot-toast";
 
 export const Form = ({ closeWindow }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [close, setClose] = useState(false);
   const [day, setDay] = useState("");
   const [titles, setTitle] = useState([""]);
+  const [err, setErr] = useState(false);
 
   const [startedTime, setStartedTime] = useState([""]);
   const [endTime, setEndTime] = useState([""]);
@@ -30,15 +32,16 @@ export const Form = ({ closeWindow }) => {
   ];
   // TODO:GET All Appointment from db for a specific user
 
- 
   const saveAppointment = (data) => {
     const { endDate, startDate, title } = data.added;
+
+    // new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
 
     setTitle(title);
     setDay(startDate);
     setStartedTime(startDate);
     setEndTime(endDate);
-    console.log(endDate, startDate);
+    console.log(endDate.toLocaleDateString());
 
     sessionStorage.setItem(
       "schedule",
@@ -46,18 +49,42 @@ export const Form = ({ closeWindow }) => {
         startDate: startDate.toLocaleString(),
         endDate: endDate.toLocaleString(),
         Title: title,
-        Starttime:  ''
+        Starttime: "",
       })
     );
 
-    requestCreator(
-      "POST",
-      "http://localhost:8000/Appointment",
-      `endTime=${endDate}&startedTime=${startDate}&title=${title}&day=${day}&unique_Patient_id=${patientKey}`,
-      "",
-      "",
-      "key"
+    const req = new XMLHttpRequest();
+    req.open("POST", "http://localhost:8000/getReservedAppointments", true);
+    req.onload = () => {
+      if (req.readyState === XMLHttpRequest.DONE) {
+        if (req.status === 200) {
+          let data = req.response;
+          console.log(data);
+          if (data == "reserved") {
+            setErr(true);
+            toast.error("please choose another date");
+          }else if(data == '') {
+            setErr(false);
+
+          }
+        }
+      }
+    };
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send(
+      `endDate=${endDate.toLocaleTimeString()}&startDate=${startDate.toLocaleTimeString()}&day=${day.toLocaleDateString()}`
     );
+    if (err == true) {
+    } else {
+      requestCreator(
+        "POST",
+        "http://localhost:8000/Appointment",
+        `endTime=${endDate.toLocaleTimeString()}&startedTime=${startDate.toLocaleTimeString()}&title=${title}&day=${startDate.toLocaleDateString()}&unique_Patient_id=${patientKey}`,
+        "",
+        "",
+        "key"
+      );
+    }
   };
   return (
     <>

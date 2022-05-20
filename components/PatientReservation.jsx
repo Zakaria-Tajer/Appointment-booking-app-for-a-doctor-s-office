@@ -2,18 +2,15 @@ import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
 
 export const PatientReservation = () => {
-  const [item, setItem] = useState("");
   const [patientFullName, setPatientFullName] = useState("");
   const [patientBirthDay, setPatientBirthDate] = useState("");
   const [patientEmail, setPatientEmail] = useState("");
   const [patientPhoneNumber, setPatientPhoneNumber] = useState("");
 
-  // todo: on click save display this ticket ? idk : ticket
 
 
+  const service = sessionStorage.getItem("service");
   useEffect(() => {
-    const service = sessionStorage.getItem("service");
-    setItem(service);
     const patient = Cookies.get("patient");
     const req = new XMLHttpRequest();
     req.open("POST", "http://localhost:8000/patient", true);
@@ -36,7 +33,7 @@ export const PatientReservation = () => {
     };
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send(`patientRef=${patient}`);
-  }, []);
+  }, [service]);
 
   return (
     <>
@@ -62,12 +59,12 @@ export const PatientReservation = () => {
                   Application for a
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {item == null ? (
+                  {service ? (
+                      service
+                  ) : (
                     <h1 className="font-poppins text-lg text-blue-800">
                       you have no appointment Reserved Yet{" "}
                     </h1>
-                  ) : (
-                    item
                   )}
                 </dd>
               </div>

@@ -9,13 +9,18 @@ export const AppointmentDates = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { startDate, endDate } = JSON.parse(
-      sessionStorage.getItem("schedule")
-    );
+    if(!sessionStorage.getItem('schedule')){
+      dispatch(update(true))
+    }else {
 
-    setStartDate(startDate);
-    setEndDate(endDate);
-  }, []);
+      const { startDate, endDate } = JSON.parse(
+        sessionStorage.getItem("schedule")
+      );
+  
+      setStartDate(startDate);
+      setEndDate(endDate);
+    }
+  }, [dispatch,startDate,endDate]);
 
   const editAppointment = ()=> {
     dispatch(update({showing}))
@@ -36,11 +41,11 @@ export const AppointmentDates = () => {
         <div className="w-full -mt-7 py-3 px-2">
           <h1 className="text-xl font-poppins text-gray-400">
             <span className="text-black mr-2">Appointement Start Date:</span>
-            {startDate}
+            {startDate ? startDate : 'No Appointments yet'}
           </h1>
           <h1 className="text-xl font-poppins text-gray-400">
             <span className="text-black mr-2">Appointement End Date:</span>
-            {endDate}
+            {endDate ? endDate : 'No Appointments yet'}
           </h1>
         </div>
       </div>

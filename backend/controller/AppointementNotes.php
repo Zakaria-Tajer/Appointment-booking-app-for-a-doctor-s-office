@@ -43,4 +43,27 @@ class AppointementNotes
             return json_encode($appointmentData);
         }
     }
+
+
+    public function getResApp()
+    {
+        $reservedAppointements = new Appointement();
+        $endDate = $_POST['endDate'];
+        $startDate = $_POST['startDate'];
+        $day = $_POST['day'];
+        
+        $reserved = $reservedAppointements->checkAppointments($startDate,$day);
+
+        $nums = $reserved->num_rows;
+
+        if($nums > 0){
+            $rows = $reserved->fetch_assoc();
+
+            if($startDate === $rows['startDate'] && $endDate === $rows['endDate']){
+                echo 'reserved';
+            }else {
+                echo 'not reserved';
+            }
+        }
+    }
 }

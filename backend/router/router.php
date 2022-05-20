@@ -17,6 +17,7 @@
     $router->map('POST','/ReferenceKey', 'requests/getRefKey');
     $router->map('POST','/Appointment', 'requests/AppointmentData');
     $router->map('POST','/getALLAppointment', 'requests/getALLAppointment');
+    $router->map('POST','/getReservedAppointments', 'requests/reservedAppointements');
     
 
 

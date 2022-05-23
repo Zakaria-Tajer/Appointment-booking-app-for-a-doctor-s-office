@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { saveData } from "../../../slices/userInfoSlice";
 import { userContext } from "../Bar";
 import { AppointmentContext } from "../../../context/AppointmentContext";
+import { update, updateForm } from "../../../slices/showSlice";
 
 export const NewAppointment = () => {
   const showed = useSelector((state) => state.show.showing);
@@ -14,20 +15,21 @@ export const NewAppointment = () => {
   const { setIsShowing } = useContext(userContext);
   const dispatch = useDispatch();
   const { setIsTicket } = useContext(AppointmentContext);
-  const saveInfo = () => {
-    
 
+  const saveInfo = () => {
     dispatch(saveData(show));
     setIsShowing(!show);
+    dispatch(update(true));
     setIsTicket(show);
     localStorage.setItem("isSaved", "true");
   };
+  const up = useSelector((state) => state.show.Form);
   return (
     <>
       <div className="w-full flex justify-center flex-col items-center space-y-8 bg-gray-700 p-4">
         <AddService />
         <PatientInformation />
-        {showed ? <AppointmentDates /> : <TimeAndDate />}
+        <AppointmentDates />
         <button
           className="py-2 px-20 rounded-md bg-white font-poppins hover:bg-gray-500 hover:text-white hover:duration-700"
           onClick={saveInfo}
